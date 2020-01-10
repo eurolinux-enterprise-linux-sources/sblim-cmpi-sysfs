@@ -1,0 +1,6 @@
+********************************************************************************
+association : Linux_SysfsSCSIDeviceHasAttribute
+
+--------------------------------------------------------------------------------
+Linux_SysfsSCSIDevice : -target Linux_SysfsAttribute -eq -cmd find /sys/class/scsi_device -noleaf -type f | wc -l
+Linux_SysfsAttribute : -target Linux_SysfsSCSIDevice -eq 0

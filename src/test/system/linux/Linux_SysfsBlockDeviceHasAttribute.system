@@ -1,0 +1,6 @@
+********************************************************************************
+association : Linux_SysfsBlockDeviceHasAttribute
+
+--------------------------------------------------------------------------------
+Linux_SysfsBlockDevice : -target Linux_SysfsAttribute -eq -cmd find /sys/block -noleaf -type f | wc -l
+Linux_SysfsAttribute : -target Linux_SysfsBlockDevice -eq 0

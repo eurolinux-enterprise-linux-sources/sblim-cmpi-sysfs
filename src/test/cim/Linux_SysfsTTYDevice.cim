@@ -1,0 +1,29 @@
+********************************************************************************
+class : Linux_SysfsTTYDevice
+objectPath : Linux_SysfsTTYDevice.SystemCreationClassName="Linux_ComputerSystem",SystemName="host.domain",CreationClassName="Linux_SysfsTTYDevice",Name="/path/name/to/device/dir"
+
+--------------------------------------------------------------------------------
+Instance                                                       enumInstanceNames
+
+--------------------------------------------------------------------------------
+Instance                                                           enumInstances
+
+--------------------------------------------------------------------------------
+Instance                                                                     get
+
+--------------------------------------------------------------------------------
+Instance								     set
+Expected Exception : NOT_SUPPORTED
+
+--------------------------------------------------------------------------------
+Instance                                                                  delete
+Expected Exception : NOT_SUPPORTED
+
+--------------------------------------------------------------------------------
+Instance                                                                  create
+Expected Exception : NOT_SUPPORTED
+
+--------------------------------------------------------------------------------
+Instance							       execQuery
+Expected Exception : NOT_SUPPORTED
+

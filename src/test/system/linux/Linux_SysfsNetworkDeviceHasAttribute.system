@@ -1,0 +1,6 @@
+********************************************************************************
+association : Linux_SysfsNetworkDeviceHasAttribute
+
+--------------------------------------------------------------------------------
+Linux_SysfsNetworkDevice : -target Linux_SysfsAttribute -eq -cmd find /sys/class/net -noleaf -type f | wc -l
+Linux_SysfsAttribute : -target Linux_SysfsNetworkDevice -eq 0

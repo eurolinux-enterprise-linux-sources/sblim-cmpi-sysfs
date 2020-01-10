@@ -1,0 +1,14 @@
+********************************************************************************
+class : Linux_SysfsBusDevice
+volatile
+
+--------------------------------------------------------------------------------
+Linux_SysfsBusDevice : -eq -cmd find /sys/bus -maxdepth 1 -mindepth 1 -type d | wc -l 
+
+--------------------------------------------------------------------------------
+SystemCreationClassName : -eq Linux_ComputerSystem
+SystemName : -eq -cmd hostname -f
+CreationClassName : -eq Linux_SysfsBusDevice
+--------------------------------------------------------------------------------
+Instance Level : Linux_SysfsBusDevice.sh
+Property Order : Name

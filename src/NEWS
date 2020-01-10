@@ -1,0 +1,18 @@
+Changes in 1.2.0
+================
+
+Bugs Fixed:
+- 2795176 migrate provider licenses to EPL
+
+Changes in 1.1.9
+=================
+Bugs:
+- 1199129 Providers won't compile with CMPI 1.0
+- 1430899 Loop in sysfs provider on newer /sys
+- 1532575 cmpi-sysfs: seg fault if file contains hex data
+- 1533889 cmpi-sysfs: find options in the wrong order
+
+Changes in 1.1.8
+=================
+Bugs:
+- 1183805 Autoconfiscate all provider packages

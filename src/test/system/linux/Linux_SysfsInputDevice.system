@@ -1,0 +1,14 @@
+********************************************************************************
+class : Linux_SysfsInputDevice
+volatile
+
+--------------------------------------------------------------------------------
+Linux_SysfsInputDevice : -eq -cmd find /sys/class/input -maxdepth 1 -mindepth 1 -type d | wc -l 
+
+--------------------------------------------------------------------------------
+SystemCreationClassName : -eq Linux_ComputerSystem
+SystemName : -eq -cmd hostname -f
+CreationClassName : -eq Linux_SysfsInputDevice
+--------------------------------------------------------------------------------
+Instance Level : Linux_SysfsInputDevice.sh
+Property Order : Name

@@ -1,0 +1,3 @@
+# Classname Namespace Providername Libraryname Capabilities ...
+$CLASSNAME root/cimv2 $CLASSNAME $CLASSNAME instance
+$CLASSNAMEHasAttribute root/cimv2 $CLASSNAMEHasAttribute $CLASSNAMEHasAttribute association

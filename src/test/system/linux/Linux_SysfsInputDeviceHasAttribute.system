@@ -1,0 +1,6 @@
+********************************************************************************
+association : Linux_SysfsInputDeviceHasAttribute
+
+--------------------------------------------------------------------------------
+Linux_SysfsInputDevice : -target Linux_SysfsAttribute -eq -cmd find /sys/class/input -noleaf -type f | wc -l
+Linux_SysfsAttribute : -target Linux_SysfsInputDevice -eq 0

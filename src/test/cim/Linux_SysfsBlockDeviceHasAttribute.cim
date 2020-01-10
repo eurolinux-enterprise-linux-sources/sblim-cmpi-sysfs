@@ -1,0 +1,20 @@
+********************************************************************************
+association : Linux_SysfsBlockDeviceHasAttribute
+objectPath : Linux_SysfsBlockDeviceHasAttribute.Context="Linux_SysfsBlockDevice.SystemCreationClassName=Linux_ComputerSystem,SystemName=HOSTNAME,CreationClassName=Linux_SysfsBlockDevice,Name=PATHNAME",Setting="Linux_SysfsAttribute.SystemCreationClassName=Linux_ComputerSystem,SystemName=HOSTNAME,CreationClassName=Linux_SysfsAttribute,SettingID=PATHNAME"
+sourceRole : Context
+targetRole : Setting
+sourceClass : Linux_SysfsBlockDevice
+targetClass : Linux_SysfsAttribute
+
+--------------------------------------------------------------------------------
+Association                                                      associatorNames
+
+--------------------------------------------------------------------------------
+Association                                                          associators
+
+--------------------------------------------------------------------------------
+Association                                                       referenceNames
+
+--------------------------------------------------------------------------------
+Association                                                           references
+

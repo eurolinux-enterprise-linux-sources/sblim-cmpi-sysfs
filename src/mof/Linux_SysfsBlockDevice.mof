@@ -1,0 +1,55 @@
+//
+// Linux_SysfsBlockDevice.mof Linux_SysfsBlockDeviceHasAttribute.mof
+//
+// Copyright (c) IBM Corp. 2002, 2009
+//
+// THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
+// ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
+// CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
+//
+// You can obtain a current copy of the Eclipse Public License from
+// http://www.opensource.org/licenses/eclipse-1.0.php
+//
+// Author:		Dr. Gareth S. Bestor <bestorga@us.ibm.com> 
+// Contributors:
+//
+// Description: 
+// auto-generated class definition of Linux_SysfsBlockDevice and Linux_SysfsBlockDeviceHasAttribute
+// 
+
+#pragma locale ("en_US")
+
+
+// ===================================================================
+// 	Linux_SysfsBlockDevice
+// ===================================================================
+
+[Description (
+   "CIM_SystemConfiguration subclass that exposes the Linux sysfs directories in /sys"),
+Provider ("cmpi:Linux_SysfsBlockDevice") 
+]
+class Linux_SysfsBlockDevice : CIM_SystemConfiguration
+{
+};
+
+
+// ===================================================================
+//      Linux_SysfsBlockDeviceHasAttribute
+// ===================================================================
+
+[Association,Aggregation,
+Description (
+   "Links sysfs instance directories to their associated attributes files."),
+Provider ("cmpi:Linux_SysfsBlockDeviceHasAttribute")
+]
+class Linux_SysfsBlockDeviceHasAttribute : CIM_SystemSettingContext
+{
+    [Override ("Context"), Aggregate, Max (1),
+        Description ("The sysfs instance directory.") ]
+    Linux_SysfsBlockDevice REF Context;
+
+    [Override ("Setting"),
+        Description ("The sysfs attribute files contained in the instance directory.") ]
+    Linux_SysfsAttribute REF Setting;
+};
+

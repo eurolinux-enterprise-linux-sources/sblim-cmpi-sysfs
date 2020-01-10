@@ -1,0 +1,3 @@
+# Classname Namespace Providername Libraryname Capabilities ...
+Linux_SysfsBlockDevice root/cimv2 Linux_SysfsBlockDevice Linux_SysfsBlockDevice instance
+Linux_SysfsBlockDeviceHasAttribute root/cimv2 Linux_SysfsBlockDeviceHasAttribute Linux_SysfsBlockDeviceHasAttribute association

@@ -1,0 +1,68 @@
+Test Environment for SBLIM Network Instrumentation
+
+The SBLIM project offers a Test Suite to perform tests against
+the provider implementation and consistence tests against system
+values.
+
+Prerequisites 
+.............
+
+- sblim-testsuite package propertly installed
+- sblim-cmpi-base package propertly installed
+- sblim-cmpi-nfsv4 package propertly installed
+
+
+Install Configuration Files
+...........................
+
+make install
+... also installs the configuration file into the testsuite directory
+as indicated by configure
+
+make uninstall
+... also deletes the cmpi-nfsv4 specific files out of the testsuite
+directories
+
+
+Run Test
+........
+
+Run the test in the testsuite dir by executing 
+./sblim-cmpi-nfsv4-test.sh
+                                                                                
+In order for the createInstance() and deleteInstance() tests to
+run correctly, you must replace the value of HOSTNAME in the
+following file(s) with the fully-qualified hostname of your test
+machine and uncomment the corresponding line. Edit the file(s):
+        ./cim/Linux_NFSv4SystemSetting.cim
+
+TEST WARNINGS
+-------------
+Some of the instance tests will report an warning. This is 'normal'
+and is a result of the fact that some of the sysfs parameters, and
+therefore their associated /sys files, change constantly.
+In particular, random seeds, entropy, and inode values change
+all the time so the original value read into in CIM may not be
+identical to the current value read by the test scripts.
+
+
+TEST ERRORS
+-----------
+It is not in general possible to determine the specific high-level sysfs
+device directory to which a particular sysfs attribute file might below
+(whereas the converse *is* true - the sysfs attributes associated with a
+particular device are all the subfile of the device directory). As a result
+the association between, say, Linux_SysfsBlockDevices and Linux_SysfsAttributes
+is one-way only. That is to say, given a specific Linux_SysfsBlockDevice the
+association provider will return all the associated Linux_SysfsAttributes, however
+given a specific Linux_SysfsAttribute it cannot determine the associated
+Linux_SysfsBlockDevice.
+
+Because of the one-way assocation, most of the association tests run by the
+testsuite as it stands today will FAIL, because the testsuite assumes two-way
+assocaitions. There are also some other incompatibilites (and bugs) when
+running the testsuite association test with the sysfs instrumentation, therefore
+it was decided to remove ALL the association tests from this test suite at
+this time. All the relevant test scripts are included, but they will not be
+run by default when you execute sblim-cmpi-sysfs-test.sh 
+ 

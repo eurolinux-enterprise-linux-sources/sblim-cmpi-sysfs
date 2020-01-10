@@ -1,0 +1,39 @@
+// Linux_SysfsAttribute.mof
+//
+// Copyright (c) IBM Corp. 2002, 2009
+//
+// THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
+// ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
+// CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
+//
+// You can obtain a current copy of the Eclipse Public License from
+// http://www.opensource.org/licenses/eclipse-1.0.php
+//
+// Author:		Dr. Gareth S. Bestor <bestorga@us.ibm.com> 
+// Contributors:
+//
+// Description: 
+// class definition of Linux_SysfsAttribute
+
+#pragma locale ("en_US")
+
+
+// ===================================================================
+//      Linux_SysfsAttribute
+// ===================================================================
+
+[Description (
+   "CIM_SystemSetting subclass exposing the Linux sysfs attribute files under /sys. "),
+Provider("cmpi:Linux_SysfsAttribute") ]
+
+class Linux_SysfsAttribute : CIM_SystemSetting
+{
+   [Description (
+      "Is the sysfs file writeable by user.") ]
+   boolean Writeable;
+
+   [Description (
+      "Value of the attribute. This is the plain-text contents of the sys file.")]
+   string Value;
+};
+

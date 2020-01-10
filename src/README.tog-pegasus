@@ -1,0 +1,78 @@
+OpenPegasus post install steps
+==============================
+
+When this package is installed (as RPM) on a system with the OpenPegasus 
+CIM server (tog-pegasus), it may be necessary to perform some extra 
+post install steps. These are:
+
+Provider Registration:
+----------------------
+
+Upon installation it is attempted to register the providers with Pegasus.
+This can fail if the tog-pegasus service is not running AND cimmofl 
+(the Pegasus offline MOF compiler) isn't installed.
+
+In this case it is necessary to run the following command with tog-pegasus
+running:
+
+/usr/share/sblim-cmpi-network/provider-register.sh -t pegasus \
+    -r mof/Linux_SysfsAttribute.registration \
+                mof/Linux_SysfsBlockDevice.registration \
+                mof/Linux_SysfsBusDevice.registration \
+                mof/Linux_SysfsInputDevice.registration \
+                mof/Linux_SysfsNetworkDevice.registration \
+                mof/Linux_SysfsSCSIDevice.registration \
+                mof/Linux_SysfsSCSIHostDevice.registration \
+                mof/Linux_SysfsTTYDevice.registration \
+    -m mof/Linux_SysfsAttribute.mof \
+                mof/Linux_SysfsBlockDevice.mof \
+                mof/Linux_SysfsBusDevice.mof \
+                mof/Linux_SysfsInputDevice.mof \
+                mof/Linux_SysfsNetworkDevice.mof \
+                mof/Linux_SysfsSCSIDevice.mof \
+                mof/Linux_SysfsSCSIHostDevice.mof \
+                mof/Linux_SysfsTTYDevice.mof
+
+Make Sure Providers Can Be Found:
+---------------------------------
+
+The providers of this package are installed into the /usr/lib/cmpi (or 
+/usr/lib64/cmpi) directory. Depending on the configuration of Pegasus
+this directory might not be in the search path for providers.
+
+In this case you should create symbolic links to the Pegasus provider
+directory by issueing the following command:
+
+ln -s /usr/lib/cmpi/lib* /usr/lib/Pegasus/providers
+
+assuming that /usr/lib/Pegasus/providers is the configured Pegasus provider
+directory.
+
+Provider Deregistration:
+------------------------
+
+In order to properly de-register the providers when deinstalling this
+package the tog-pegasus service must be active. The deinstallation will
+fail otherwise.
+
+Alternatively it is possible to deregister the providers BEFORE uninstalling 
+this package with the following command:
+
+/usr/share/sblim-cmpi-network/provider-register.sh -d -t pegasus \
+    -r mof/Linux_SysfsAttribute.registration \
+                mof/Linux_SysfsBlockDevice.registration \
+                mof/Linux_SysfsBusDevice.registration \
+                mof/Linux_SysfsInputDevice.registration \
+                mof/Linux_SysfsNetworkDevice.registration \
+                mof/Linux_SysfsSCSIDevice.registration \
+                mof/Linux_SysfsSCSIHostDevice.registration \
+                mof/Linux_SysfsTTYDevice.registration \
+    -m mof/Linux_SysfsAttribute.mof \
+                mof/Linux_SysfsBlockDevice.mof \
+                mof/Linux_SysfsBusDevice.mof \
+                mof/Linux_SysfsInputDevice.mof \
+                mof/Linux_SysfsNetworkDevice.mof \
+                mof/Linux_SysfsSCSIDevice.mof \
+                mof/Linux_SysfsSCSIHostDevice.mof \
+                mof/Linux_SysfsTTYDevice.mof
+

@@ -1,0 +1,3 @@
+# Classname Namespace Providername Libraryname Capabilities ...
+Linux_SysfsInputDevice root/cimv2 Linux_SysfsInputDevice Linux_SysfsInputDevice instance
+Linux_SysfsInputDeviceHasAttribute root/cimv2 Linux_SysfsInputDeviceHasAttribute Linux_SysfsInputDeviceHasAttribute association

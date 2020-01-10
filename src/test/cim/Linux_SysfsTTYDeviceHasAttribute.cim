@@ -1,0 +1,20 @@
+********************************************************************************
+association : Linux_SysfsTTYDeviceHasAttribute
+objectPath : Linux_SysfsTTYDeviceHasAttribute.Context="Linux_SysfsTTYDevice.SystemCreationClassName=Linux_ComputerSystem,SystemName=name,CreationClassName=Linux_SysfsTTYDevice,Name=pathname",Setting="Linux_SysfsAttribute.SystemCreationClassName=Linux_ComputerSystem,SystemName=hostname,CreationClassName=Linux_SysfsAttribute,SettingID=pathname"
+sourceRole : Context
+targetRole : Setting
+sourceClass : Linux_SysfsTTYDevice
+targetClass : Linux_SysfsAttribute
+
+--------------------------------------------------------------------------------
+Association                                                      associatorNames
+
+--------------------------------------------------------------------------------
+Association                                                          associators
+
+--------------------------------------------------------------------------------
+Association                                                       referenceNames
+
+--------------------------------------------------------------------------------
+Association                                                           references
+
