@@ -1,0 +1,6 @@
+********************************************************************************
+association : Linux_SysfsTTYDeviceHasAttribute
+
+--------------------------------------------------------------------------------
+Linux_SysfsTTYDevice : -target Linux_SysfsAttribute -eq -cmd find /sys/class/tty -noleaf -type f | wc -l
+Linux_SysfsAttribute : -target Linux_SysfsTTYDevice -eq 0

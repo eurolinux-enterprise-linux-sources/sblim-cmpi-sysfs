@@ -1,0 +1,29 @@
+********************************************************************************
+class : Linux_SysfsInputDevice
+objectPath : Linux_SysfsInputDevice.SystemCreationClassName="Linux_ComputerSystem",SystemName="host.domain",CreationClassName="Linux_SysfsInputDevice",Name="/path/name/to/device/dir"
+
+--------------------------------------------------------------------------------
+Instance                                                       enumInstanceNames
+
+--------------------------------------------------------------------------------
+Instance                                                           enumInstances
+
+--------------------------------------------------------------------------------
+Instance                                                                     get
+
+--------------------------------------------------------------------------------
+Instance								     set
+Expected Exception : NOT_SUPPORTED
+
+--------------------------------------------------------------------------------
+Instance                                                                  delete
+Expected Exception : NOT_SUPPORTED
+
+--------------------------------------------------------------------------------
+Instance                                                                  create
+Expected Exception : NOT_SUPPORTED
+
+--------------------------------------------------------------------------------
+Instance							       execQuery
+Expected Exception : NOT_SUPPORTED
+

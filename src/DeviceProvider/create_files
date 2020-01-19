@@ -1,0 +1,14 @@
+#!/bin/sh
+
+#-------------------------------------------------------------------------
+
+# Get the list of instance directories and class names. Remove comments and blank lines
+cat ../classes | grep -Ev "^#.*" | grep -Ev "^$" | while read DIR CLASSNAME; do
+
+  # Copy the generic provider source file and substitute in this classname and pathname
+  echo "Creating "$CLASSNAME".c from TEMPLATE.c ..."
+  rm -f $CLASSNAME.c
+  cat TEMPLATE.c | sed -e "s/\$CLASSNAME/$CLASSNAME/g" | sed -e "s!\$FILEROOT!$DIR!g" > $CLASSNAME".c"
+  echo "Done"
+done
+

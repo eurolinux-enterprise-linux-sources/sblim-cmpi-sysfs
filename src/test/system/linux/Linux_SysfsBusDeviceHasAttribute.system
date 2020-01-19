@@ -1,0 +1,6 @@
+********************************************************************************
+association : Linux_SysfsBusDeviceHasAttribute
+
+--------------------------------------------------------------------------------
+Linux_SysfsBusDevice : -target Linux_SysfsAttribute -eq -cmd find /sys/bus -noleaf -type f | wc -l
+Linux_SysfsAttribute : -target Linux_SysfsBusDevice -eq 0

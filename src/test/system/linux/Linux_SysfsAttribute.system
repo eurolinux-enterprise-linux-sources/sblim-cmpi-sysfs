@@ -1,0 +1,14 @@
+********************************************************************************
+class : Linux_SysfsAttribute
+volatile
+
+--------------------------------------------------------------------------------
+Linux_SysfsAttribute : -eq -cmd find /sys -noleaf -type f | wc -l 
+
+--------------------------------------------------------------------------------
+SystemCreationClassName : -eq Linux_ComputerSystem
+SystemName : -eq -cmd hostname -f
+CreationClassName : -eq Linux_SysfsAttribute
+--------------------------------------------------------------------------------
+Instance Level : Linux_SysfsAttribute.sh
+Property Order : SettingID Value Writeable

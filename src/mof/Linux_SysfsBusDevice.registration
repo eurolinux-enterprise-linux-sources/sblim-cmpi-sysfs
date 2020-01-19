@@ -1,0 +1,3 @@
+# Classname Namespace Providername Libraryname Capabilities ...
+Linux_SysfsBusDevice root/cimv2 Linux_SysfsBusDevice Linux_SysfsBusDevice instance
+Linux_SysfsBusDeviceHasAttribute root/cimv2 Linux_SysfsBusDeviceHasAttribute Linux_SysfsBusDeviceHasAttribute association

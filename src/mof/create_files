@@ -1,0 +1,50 @@
+#!/bin/sh
+
+
+#-------------------------------------------------------------------------
+
+rm -f Linux_Sysfs.mof
+echo "//
+// Linux_Sysfs.mof
+//
+// Copyright (c) IBM Corp. 2002, 2009
+//
+// THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
+// (\"AGREEMENT\"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
+// CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
+//
+// You can obtain a current copy of the Eclipse Public License from
+// http://www.opensource.org/licenses/eclipse-1.0.php
+//
+// Author:       
+// Contributors:
+//
+// Description: 
+// auto-generated mof file to include all mof files holding the class
+// descriptions of instrumented sysfs providers
+// 
+
+#pragma include (\"Linux_SysfsAttribute.mof\")
+" > Linux_Sysfs.mof
+
+#-------------------------------------------------------------------------
+
+# Get the list of instance directories and class names. Remove comments and blank lines
+cat ../classes | grep -Ev "^#.*" | grep -Ev "^$" | while read DIR CLASSNAME; do
+
+  # Copy the generic template MOF file and substitute in this classname
+  echo "Creating $CLASSNAME.mof from TEMPLATE.mof ..."
+  rm -f $CLASSNAME.mof
+  cat TEMPLATE.mof | sed -e "s/\$CLASSNAME/$CLASSNAME/g" > $CLASSNAME.mof 
+  echo "Done"
+
+  echo "#pragma include (\"$CLASSNAME.mof\")" >> Linux_Sysfs.mof
+
+  # Copy the generic registartion MOF file and substitute in this classname
+  echo "Creating ${CLASSNAME}.registration from REGISTRATION.registration ..."
+  rm -f ${CLASSNAME}.registration
+  cat REGISTRATION.registration | sed -e "s/\$CLASSNAME/$CLASSNAME/g" > ${CLASSNAME}.registration 
+  echo "Done"
+
+done
+

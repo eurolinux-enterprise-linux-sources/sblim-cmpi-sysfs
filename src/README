@@ -1,0 +1,287 @@
+SBLIM Linux Sysfs Instrumentation for CMPI README
+
+
+Overview:
+--------
+This package provides SBLIM instrumentation to expose the kernel
+devices accessible via sysfs, which is a virtual filesystem in Linux kernel 
+versions 2.5+ that provides a tree of system devices.
+The sysfs filesystem is mounted under /sys and the various
+subdirectories of /sys represent the different classes of
+devices currently registered on the machine. For example,
+
+	# ls /sys/block
+	fd0  initrd  ram1   ram11  ram13  ram15  ram3  ram5  ram7  ram9
+	hda  ram0    ram10  ram12  ram14  ram2   ram4  ram6  ram8  sda
+
+lists the 'block' devices on the machine. Individual devices are
+represented as a subdirectory of a device class and contain one
+of more device attribute files - plaintext files containing the
+value of the corresponding device attribute. For example,
+
+	# ls /sys/block/fd0
+	dev  queue  range  size  stat
+
+The current value of a specific device attribute can be found by simply
+examining the contents of the file. For example,
+
+	# cat /sys/block/fd0/size
+	8
+
+Many device attributes are read-only and cannot be modified by the user.
+Whether an attribute is writeable or not can be determined by examining the
+file permission bits. For example,
+
+	# ls -l /sys/block/fd0/size
+	-r--r--r--    1 root     root         4096 Aug 25 02:57 /sys/block/fd0/size
+
+indicates that the size attribute is read-only. Other device attributes 
+are writeable and their value can be changed by simply writing a new value
+into the file. For example,
+
+	# ls -l /sys/block/fd0/queue/nr_requests
+	-rw-r--r--    1 root     root         4096 Aug 25 02:57 /sys/block/fd0/queue/nr_requests
+	# cat /sys/block/fd0/queue/nr_requests
+	128
+	# echo 256 > /sys/block/fd0/queue/nr_requests
+	# cat /sys/block/fd0/queue/nr_requests
+	256
+
+There is an tarball sys.tar.gz provided in this package containing
+an example snapshot of what a real /sys filesystem might look like.
+
+
+Implementation:
+--------------
+The CIM providers in this package enable a user to list all the sysfs devices
+from CIM, as well as list, read and write (if applicable) all the attributes
+of a specific device. Sysfs devices can add/remove/change their attribute
+files at any time, and new sysfs devices can be added/removed entirely from
+the system in real-time. Therefore, this package implements CIM instrumentation
+for sysfs by defining three providers. The first - Linux_SysfsAttribute - 
+is an instance provider to expose device attribute *files* (e.g. /sys/block/fd0/size).
+The second - Linux_Sysfs<devicetype>Device - are instance providers to expose the
+different types of sysfs devices or *directories* (e.g. /sys/block/fd0).
+The third is an association provider that matches a sysfs device/directory to its 
+corresponding sysfs attributes/files. In this way, both sysfs devices and their
+attributes can be added/removed dynamically on the system without having to
+recompile the providers.  
+
+Currently the following sysfs device types - and their corresponding CIM classname - are supported:
+
+	/sys/block             --> Linux_SysfsBlockDevice
+	/sys/bus               --> Linux_SysfsBusDevice
+	/sys/class/input       --> Linux_SysfsInputDevice
+	/sys/class/net         --> Linux_SysfsNetworkDevice
+	/sys/class/scsi_device --> Linux_SysfsSCSIDevice
+	/sys/class/scsi_host   --> Linux_SysfsSCSIHostDevice
+	/sys/class/tty         --> Linux_SysfsTTYDevice
+
+Future sysfs device types can be added/removed by changing the ./classes file and
+recompiling providers to generate a new sysfs Linux_Sysfs*Device CIM class.
+
+All Linux_Sysfs<devicetype>Device classes are subclasses of the CIM_Configuration class.
+To find the list of all devices on the system, enumerate the instances of
+the desired device type class, e.g. Linux_SysfsBlockDevice. To find the
+list of all the attributes of a specific device, e.g. the "/sys/block/fd0" device
+(a Linux_SysfsBlockDevice), select the device instance and look at the
+associations of this instance. These will be a list of Linux_SysfsAttribute
+instances for all the attribute files associated with /sys/block/fd0.
+
+You can also access a specific sysfs attribute file directly by 
+enumerating the Linux_SysfsAttribute (a subclass of CIM_Setting).
+However, the usual procedure will be to first select the desired sysfs device type,
+then select a specific device instance, and then select the attribute
+from the list of associations.  
+
+
+Prerequisites:
+-------------
+- CIM Schema Version 2.7+
+- CMPI (Common Manageablity Programming Interface) adapter for SNIA/Pegasus cimom
+  [sblim-cmpi-adapater version 0.7 or higher]
+- SBLIM base instrumentation package [sblim-cmpi-base version 1.1 or higher]
+
+
+CIM Schema Files:
+----------------
+- mof/Linux_SysfsAttribute.mof
+- mof/TEMPLATE.mof
+  [all device mofs are auto-generated from mof/TEMPLATE.mof by running mof/create_files]
+
+
+CIM Registration Files (Pegasus only):
+-------------------------------------
+- mof/Linux_SysfsAttribute.registration
+- mof/REGISTRATION.registration
+  [all device registration files are auto-generated from 
+   mof/REGISTRATION.registration by running mof/create_files]
+
+
+Instrumentation Source:
+----------------------
+- AttributeProvider/Linux_ABIParameter.c
+- DeviceProvider/TEMPLATE.c
+  [all device providers are auto-generated from DeviceProvider/TEMPLATE.c
+   by running DeviceProvider/create_files]
+- AssociationProvider/TEMPLATE.c
+  [all association providers are auto-generated from 
+   AssociationProvider/TEMPLATE.c by running AssociationProvider/create_files]
+- util/Linux_SysfsAttributeUtil.h
+- util/Linux_SysfsAttributeUtil.c
+- util/Linux_SysfsDeviceUtil.h
+- util/Linux_SysfsDeviceUtil.c
+
+
+Instrumentation Libraries:
+-------------------------
+- AttributeProvider/libLinux_SysfsAttribute.so
+- DeviceProvider/libLinux_Sysfs*Device.so (one lib per device class)
+- AssociationProvider/libLinux_Sysfs*DeviceHasAttribute.so (one lib per device class)
+- util/libLinux_SysfsAttributeUtil.so
+- util/libLinux_SysfsDeviceUtil.so
+
+
+Test Scripts:
+------------
+Test scripts for all the above classes are located in ./test
+These tests must be run with the SBLIM test suite package,
+available from http://sblim.sourceforge.net
+
+
+
+Creating the providers:
+----------------------
+
+The create_files script generates the
+required .c provider source file and .mof schema file from
+the TEMPLATE.c files respectively. i.e.
+
+1. edit ./classes to add or remove the desired sysfs directories
+   Note - $FILEROOT specifies the root directory
+   in which the instances of that device type are to be found. i.e.
+        ls -1 $FILEROOT
+   will list the individual device instance names that will result.
+
+2. run AssociationProvider/create_files, DeviceProvider/create_files, and
+   mof/createfiles 
+
+All occurances of the string $CLASSNAME and $FILEROOT in the
+template files are replaced by the values for each of the
+desired sysfs parameters as specified in the classes file.
+
+
+
+  The Linux_Sysfs*Device classes are located under
+
+	CIM_ManagedElement
+		CIM_Configuration
+			Linux_SysfsBlockDevice
+			Linux_SysfsNetworkDevice
+			...
+
+  The Linux_SysfsAttribute class is located under
+	CIM_ManagedElement
+		CIM_Setting
+			Linux_SysfsAttribute
+
+- Enumerate the instances of the desired device class to obtain a
+  listing of all the device instances. Examine the associations/related objects of a specific
+  device instance to obtain a listing of all its attribute files.
+ 
+- Once you have located the device and attribute of interest, you may examine and change
+  the value of this attribute via the Linux_SysfsAttribute GetInstance() and
+  SetInstance() methods.
+
+
+Build Instructions
+------------------
+
+
+Prerequisites
+.............
+- CIMOM installed
+- CMPI enabled CIMOM
+- CIM Schema Version 2.7 or higher loaded into the CIMOM's
+  repository
+- to enable Testsuite support:
+  SBLIM package sblim-testsuite installed
+- sblim-cmpi-devel package installed
+- sblim-cmpi-base package installed
+
+
+Building CIMOM and CMPI for this CIMOM
+.........................................
+
+CMPI support is available for SBLIM's sfcb, OpenPegasus, OpenCimom
+(former SNIA CIMOM) and OpenWBEM
+
+- sfcb      ... CMPI as only provider interface
+- Pegasus   ... CMPI is part of Pegasus
+- OpenCimom ... install SBLIM cmpi-adapter for snia (please follow 
+                the instructions in the README.cmpi file of SBLIM's
+                cmpi-adapter package)
+- OpenWBEM  ... CMPI is part of OpenWBEM
+
+
+Building cmpi-base
+..................
+Please follow the instructions in the README file of the 
+cmpi-base package.
+
+
+Building cmpi-sysfs
+.....................
+
+This package is now GNU autotool enabled, refer to the file
+named INSTALL for generic instructions.
+
+The generated configure script tries to determine where the CMPI header files
+are located. For this purpose it searches a set of well-known locations.
+The "canonical" location is /usr/include/cmpi or /usr/local/include/cmpi,
+depending on how configure is invoked.
+
+Further, configure "determines" where providers are to be installed. Actually,
+there's no detection logic. The provider directory will always be
+/usr/lib/cmpi or /usr/local/lib/cmpi. If a CIM server requires a particular
+directory this can be selected by specifying the PROVIDERDIR variable.
+
+And finally, configure tries to find out which CIM server type is being used.
+This is necessary in order to select the appropriate schema and provider
+registration technique. If the CIM server is not or incorrectly identified,
+it is possible to specify it via the CIMSERVER variable.
+Supported values are pegasus, sfcb, openwbem and sniacimom.
+
+For instance, in order to configure for a locally installed Pegasus you can
+issue the following command:
+./configure CIMSERVER=pegasus PROVIDERDIR=$PEGASUS_HOME/lib
+
+
+
+Load Schema into CIMOM's repository
+...................................
+
+with Pegasus/sfcb :
+.................
+The loading and registering of the classes/associations and
+their provider is done during the "make postinstall".
+
+with OpenCimom/SNIA CIMOM :
+...........................
+Start the cimbrowser (/usr/sniacimom/bin). Load the schema
+file Linux_Base.mof with "File" -> "Reload Mof" into the 
+namespace root/cimv2. Before at least CIM Core and System
+schemata have to be loaded into the repository.
+
+
+
+Automated Function Verifcation Test 
+-----------------------------------
+
+The sub directory test contains the configuration files,
+necessary to drive the SBLIM Test Suite. The SBLIM Test
+Suite is a tool to automate function verification tests
+of providers. 
+
+How to set up and drive the test is described in the 
+README.TEST file.

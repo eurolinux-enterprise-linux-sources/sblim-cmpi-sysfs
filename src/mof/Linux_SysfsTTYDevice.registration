@@ -1,0 +1,3 @@
+# Classname Namespace Providername Libraryname Capabilities ...
+Linux_SysfsTTYDevice root/cimv2 Linux_SysfsTTYDevice Linux_SysfsTTYDevice instance
+Linux_SysfsTTYDeviceHasAttribute root/cimv2 Linux_SysfsTTYDeviceHasAttribute Linux_SysfsTTYDeviceHasAttribute association

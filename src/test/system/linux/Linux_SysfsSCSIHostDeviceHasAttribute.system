@@ -1,0 +1,6 @@
+********************************************************************************
+association : Linux_SysfsSCSIHostDeviceHasAttribute
+
+--------------------------------------------------------------------------------
+Linux_SysfsSCSIHostDevice : -target Linux_SysfsAttribute -eq -cmd find /sys/class/scsi_host -noleaf -type f | wc -l
+Linux_SysfsAttribute : -target Linux_SysfsSCSIHostDevice -eq 0

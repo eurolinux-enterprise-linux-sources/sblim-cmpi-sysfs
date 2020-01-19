@@ -1,0 +1,3 @@
+# Classname Namespace Providername Libraryname Capabilities ...
+Linux_SysfsNetworkDevice root/cimv2 Linux_SysfsNetworkDevice Linux_SysfsNetworkDevice instance
+Linux_SysfsNetworkDeviceHasAttribute root/cimv2 Linux_SysfsNetworkDeviceHasAttribute Linux_SysfsNetworkDeviceHasAttribute association

@@ -1,0 +1,3 @@
+# Classname Namespace Providername Libraryname Capabilities ...
+Linux_SysfsSCSIDevice root/cimv2 Linux_SysfsSCSIDevice Linux_SysfsSCSIDevice instance
+Linux_SysfsSCSIDeviceHasAttribute root/cimv2 Linux_SysfsSCSIDeviceHasAttribute Linux_SysfsSCSIDeviceHasAttribute association
